@@ -3,6 +3,7 @@ const getState = ({ getStore, setStore, getActions }) => {
 	return {
 		store: {
 			contacts: []
+
 			//Your data structures, A.K.A Entities
 		},
 		actions: {
@@ -34,9 +35,18 @@ const getState = ({ getStore, setStore, getActions }) => {
 					.catch(e => console.error(e));
 			},
 			// adding contacts
-			addingContact() {
-				fetch(URL + "downtown-pt-xvii", {
+			addingContact: (fullName, address, email, phone) => {
+				let contactInfo = {
+					full_name: fullName,
+					agenda_slug: "downtown-pt-xvii",
+					email: email,
+					address: address,
+					phone: phone
+				};
+
+				fetch(URL, {
 					method: "POST",
+					body: JSON.stringify(contactInfo),
 					headers: {
 						"Content-Type": "application/json"
 					}
