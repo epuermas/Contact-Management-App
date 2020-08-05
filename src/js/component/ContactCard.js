@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 export const ContactCard = props => {
 	const { store, actions } = useContext(Context);
-	console.log("store:", store.contacts);
+	console.log("store:", store.contacts); //thats how we know what we are able to map
 
 	return (
 		<div>
@@ -28,7 +28,14 @@ export const ContactCard = props => {
 										<button className="btn">
 											<i className="fas fa-pencil-alt mr-3" />
 										</button>
-										<button className="btn" onClick={() => props.onDelete()}>
+
+										<button
+											className="btn"
+											onClick={() => {
+												actions.deleteContact(e.id);
+												// getting the ids when map
+											}}>
+											{/*we change props.onDelete actions.deleteContact(e.id)*/}
 											<i className="fas fa-trash-alt" />
 										</button>
 									</div>
