@@ -57,6 +57,22 @@ const getState = ({ getStore, setStore, getActions }) => {
 						getActions().loadContact();
 					})
 					.catch(e => console.error(e));
+			},
+			// update contact
+			updateContact: id => {
+				fetch(URL + id, {
+					method: "PUT",
+					body: JSON.stringify(contactInfo),
+					headers: {
+						"Content-Type": "application/json"
+					}
+				})
+					.then(resp => resp.json())
+					.then(data => {
+						console.log("response:", data);
+						getActions().loadContact();
+					})
+					.catch(e => console.error(e));
 			}
 			//(Arrow) Functions that update the Store
 			// Remember to use the scope: scope.state.store & scope.setState()

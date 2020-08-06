@@ -5,7 +5,7 @@ import MikePhoto from "../../img/m101.jpg";
 import { Context } from "../store/appContext";
 import { Link } from "react-router-dom";
 
-export const ContactCard = props => {
+const ContactCard = props => {
 	const { store, actions } = useContext(Context);
 	console.log("store:", store.contacts); //thats how we know what we are able to map
 
@@ -25,7 +25,13 @@ export const ContactCard = props => {
 								</div>
 								<div className="col-12 col-sm-6 col-md-9 text-center text-sm-left">
 									<div className=" float-right">
-										<button className="btn">
+										<button
+											onClick={() =>
+												props.history.push("/edit", {
+													contact: e
+												})
+											}
+											className="btn">
 											<i className="fas fa-pencil-alt mr-3" />
 										</button>
 
@@ -84,3 +90,5 @@ ContactCard.propTypes = {
 ContactCard.defaultProps = {
 	onDelete: null
 };
+
+export default withRouter(ContactCard);
