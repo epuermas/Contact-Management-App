@@ -59,7 +59,14 @@ const getState = ({ getStore, setStore, getActions }) => {
 					.catch(e => console.error(e));
 			},
 			// update contact
-			updateContact: id => {
+			updateContact: (id, fullName, address, email, phone) => {
+				let contactInfo = {
+					full_name: fullName,
+					agenda_slug: "downtown-pt-xvii",
+					email: email,
+					address: address,
+					phone: phone
+				};
 				fetch(URL + id, {
 					method: "PUT",
 					body: JSON.stringify(contactInfo),

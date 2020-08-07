@@ -5,25 +5,32 @@ import { Context } from "../store/appContext";
 import PropTypes from "prop-types";
 
 const AddContact = props => {
+	// test contact accesible from witchRouter and props.location.state.contact
 	let testContact =
 		typeof props.location.state !== "undefined" && typeof props.location.state.contact !== "undefined"
 			? props.location.state.contact
 			: null;
 	const { store, actions } = useContext(Context);
 	const [fullName, setFullName] = useState(testContact !== null ? testContact.full_name : "");
-	const [address, setAddress] = useState();
-	const [email, setEmail] = useState();
-	const [phone, setPhone] = useState();
+	const [address, setAddress] = useState(testContact !== null ? testContact.address : "");
+	const [email, setEmail] = useState(testContact !== null ? testContact.email : "");
+	const [phone, setPhone] = useState(testContact !== null ? testContact.phone : "");
+	const [id, setId] = useState(testContact !== null ? testContact.id : "");
 	const [contact, setContact] = useState(testContact !== null ? props.location.state.contact : null);
 
 	const handleSubmit = e => {
 		e.preventDefault();
 		if (testContact !== null) {
 			// editing contact - use update fetch (PUT)
+			actions.updateContact(id, fullName, address, email, phone);
 		} else {
 			// adding contact - use add fetch (POST)
 			actions.addingContact(fullName, address, email, phone);
 		}
+		setFullName("");
+		setAddress("");
+		setEmail("");
+		setPhone("");
 	};
 
 	return (
@@ -44,8 +51,10 @@ const AddContact = props => {
 					<label>Email</label>
 					<input
 						onChange={e => setEmail(e.target.value)}
+						value={email}
 						type="email"
-						pattern='/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/'
+						pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+						required
 						className="form-control"
 						placeholder="Enter email"
 					/>
@@ -54,6 +63,7 @@ const AddContact = props => {
 					<label>Phone</label>
 					<input
 						onChange={e => setPhone(e.target.value)}
+						value={phone}
 						type="phone"
 						className="form-control"
 						placeholder="Enter phone"
@@ -63,6 +73,7 @@ const AddContact = props => {
 					<label>Address</label>
 					<input
 						onChange={e => setAddress(e.target.value)}
+						value={address}
 						type="text"
 						className="form-control"
 						placeholder="Enter address"
@@ -79,6 +90,7 @@ const AddContact = props => {
 	);
 };
 
+// this is how you validate location
 AddContact.propTypes = {
 	location: PropTypes.shape({
 		pathname: PropTypes.string.isRequired,
