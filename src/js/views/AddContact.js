@@ -17,6 +17,7 @@ const AddContact = props => {
 	const [phone, setPhone] = useState(testContact !== null ? testContact.phone : "");
 	const [id, setId] = useState(testContact !== null ? testContact.id : "");
 	const [contact, setContact] = useState(testContact !== null ? props.location.state.contact : null);
+	const [message, setMessage] = useState(false);
 
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -31,12 +32,18 @@ const AddContact = props => {
 		setAddress("");
 		setEmail("");
 		setPhone("");
+		setMessage(true);
 	};
 
 	return (
 		<div className="container">
 			<form onSubmit={e => handleSubmit(e)}>
 				<h1 className="text-center mt-5">{contact !== null ? "Edit" : "Add a new"} contact</h1>
+				{message ? (
+					<div className="alert alert-success" role="alert">
+						Successfull
+					</div>
+				) : null}
 				<div className="form-group">
 					<label>Full Name</label>
 					<input
